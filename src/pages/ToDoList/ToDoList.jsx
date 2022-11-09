@@ -8,8 +8,12 @@ function ToDoList() {
       ? []
       : JSON.parse(localStorage.getItem("items"))
   );
+
   const addItem = (item) => {
     setItems([...items, item]);
+  };
+  const removeItem = (itemToBeDeleted) => {
+    setItems(items.filter((item) => itemToBeDeleted !== item));
   };
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("items"));
@@ -24,7 +28,7 @@ function ToDoList() {
   return (
     <div>
       <ToDOListForm addItem={addItem} />
-      <ToDoListContainer items={items} />
+      <ToDoListContainer items={items} removeItem={removeItem} />
     </div>
   );
 }

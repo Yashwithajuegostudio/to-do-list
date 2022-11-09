@@ -1,42 +1,19 @@
-import { useEffect, useState } from "react";
-import popupStyles from "./PopUp.module.css";
-import PropTypes from "prop-types";
+import styles from "./PopUp.module.css";
 
-function PopUP(props) {
-  const [show, setShow] = useState(false);
-
-  const closeHandler = (e) => {
-    setShow(false);
-    props.onClose(false);
-  };
-
-  useEffect(() => {
-    setShow(props.show);
-  }, [props.show]);
-
+function PopUP({ handleClose, content, title }) {
   return (
-    <div
-      style={{
-        visibility: show ? "visible" : "hidden",
-        opacity: show ? "1" : "0",
-      }}
-      className={popupStyles.overlay}
-    >
-      <div className={popupStyles.popup}>
-        <h2>{props.title}</h2>
-        <span className={popupStyles.close} onClick={closeHandler}>
-          &times;
+    <div className={styles.popup_container}>
+      <div className={styles.popup_box}>
+        <span className={styles.close_icon} onClick={handleClose}>
+          x
         </span>
-        <div className={popupStyles.content}>{props.children}</div>
+        <div className={styles.popup_content}>
+          <b>{title}</b>
+          {content}
+        </div>
       </div>
     </div>
   );
 }
-
-PopUP.propTypes = {
-  title: PropTypes.string.isRequired,
-  show: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-};
 
 export default PopUP;
