@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Header from "../../components/Header/Header";
 import ToDoListContainer from "../../components/ToDoListContainer/ToDoListContainer";
 import ToDOListForm from "../../components/ToDoListForm/ToDOListForm";
 
@@ -15,6 +16,11 @@ function ToDoList() {
   const removeItem = (itemToBeDeleted) => {
     setItems(items.filter((item) => itemToBeDeleted !== item));
   };
+
+  const updateItem = (itemToBeUpdated, index) => {
+    items.splice(index, index, itemToBeUpdated);
+    localStorage.setItem(index, itemToBeUpdated);
+  };
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("items"));
     if (items) {
@@ -23,12 +29,16 @@ function ToDoList() {
   }, []);
   useEffect(() => {
     localStorage.setItem("items", JSON.stringify(items));
-    console.log(localStorage);
   }, [items]);
   return (
     <div>
+      <Header />
       <ToDOListForm addItem={addItem} />
-      <ToDoListContainer items={items} removeItem={removeItem} />
+      <ToDoListContainer
+        items={items}
+        removeItem={removeItem}
+        updateItem={updateItem}
+      />
     </div>
   );
 }

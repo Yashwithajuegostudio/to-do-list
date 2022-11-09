@@ -44,4 +44,11 @@
 :root {
   /* Primary colors */
   --primary-black: black;
+  --primary-white: white;
+
+  /* black color variant */
+  --light-black-color: #00000050;
+  /* grey variant  */
+  --light-grey-color: #999;
+  --dark--grey-color: #ededed;
 }

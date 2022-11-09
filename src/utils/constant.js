@@ -6,6 +6,8 @@ export const title = {
   saveBtnTitle: "Save",
   cancelBtnTitle: "Cancel",
   toDoBtnTitle: "ToDo",
+  loginBtnTitle: "Login",
+  searchTitle: "Search",
 };
 export const message = {
   deleteMessage: "Are you sure want to delete?",
