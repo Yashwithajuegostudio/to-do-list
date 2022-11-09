@@ -5,18 +5,18 @@ import InputBox from "../InputBox/InputBox";
 import styles from "./ToDoListForm.module.css";
 
 function ToDOListForm({ addItem }) {
-  const [item, setItemValue] = useState("");
+  const [userInput, setUserInput] = useState("");
   // add button functionality
   const handleSubmit = (e) => {
     e.preventDefault();
-    addItem(item);
-    setItemValue("");
+    addItem(userInput);
+    setUserInput("");
   };
   return (
     <form className={styles.todo_list_form} onSubmit={handleSubmit}>
       <InputBox
-        value={item}
-        handleOnchange={(e) => setItemValue(e.target.value)}
+        value={userInput}
+        handleOnchange={(e) => setUserInput(e.target.value)}
       />
       <Button title={title.AddBtnTitle} />
     </form>
