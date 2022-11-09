@@ -5,4 +5,5 @@ export const title = {
   EditBtnTitle: "Edit",
   saveBtnTitle: "Save",
   cancelBtnTitle: "Cancel",
+  toDoBtnTitle: "ToDo",
 };

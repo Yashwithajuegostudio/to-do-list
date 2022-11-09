@@ -1,10 +1,17 @@
 .todo_list_container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 .todo_buttons {
   padding-left: 0.7rem;
   display: flex;
   gap: 2rem;
+}
+.item_container {
+  display: flex;
+  gap: 10rem;
+  border: 0.1rem solid var(--primary-black);
+  padding: 2rem;
+  justify-content: space-between;
 }
