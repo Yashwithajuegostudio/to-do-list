@@ -13,15 +13,13 @@ function ToDoListContainer({
   activeContent,
   setTaskToDo,
   setCompletedTask,
-  searchStatus,
-  filtered,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState("");
 
   const [deleteId, setDeleteId] = useState();
   const [toDoValue, setToDoValue] = useState();
-
+  const [toDoState, setToDoState] = useState(todos);
   // id state
   const [id, setId] = useState();
 
@@ -61,15 +59,27 @@ function ToDoListContainer({
       togglePopup();
     }
   };
-
+  const handleSearchChange = (value) => {
+    const filtered = !value
+      ? todos
+      : todos.filter((item) =>
+          item.TodoValue.toLowerCase().includes(value.toLowerCase())
+        );
+    console.log(filtered);
+    setToDoState(filtered);
+  };
   return (
     <div className={styles.todo_list_container}>
-      <div
-        className={
-          activeContent === 0 && searchStatus === "" ? "" : styles.hide_content
-        }
-      >
-        {todos.map((individualItem, index) => (
+      <div className={styles.search}>
+        <InputBox
+          placeholder={"Find your item"}
+          handleOnchange={(e) => {
+            handleSearchChange(e.target.value);
+          }}
+        />
+      </div>
+      <div className={activeContent === 0 ? "" : styles.hide_content}>
+        {toDoState.map((individualItem, index) => (
           // !individualItem.completed &&
           // !individualItem.toDo &&
           <div key={index} className={styles.item_container}>
@@ -134,18 +144,10 @@ function ToDoListContainer({
           </div>
         ))}
       </div>
-      {/* search -todo */}
-      <div className={searchStatus !== "" ? "" : styles.hide_content}>
-        {filtered.map((individualItem, index) => (
-          <div key={index} className={styles.item_container}>
-            <span>{index + 1}</span>
-            <span>{individualItem.TodoValue}</span>
-          </div>
-        ))}
-      </div>
+
       {/* tab2 -todo */}
       <div className={activeContent === 1 ? "" : styles.hide_content}>
-        {todos.map(
+        {toDoState.map(
           (individualItem, index) =>
             individualItem.toDo &&
             !individualItem.completed && (
@@ -217,7 +219,7 @@ function ToDoListContainer({
       </div>
       {/* tab3 -todo */}
       <div className={activeContent === 2 ? "" : styles.hide_content}>
-        {todos.map(
+        {toDoState.map(
           (individualItem, index) =>
             individualItem.toDo &&
             individualItem.completed && (

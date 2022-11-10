@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
-import InputBox from "../../components/InputBox/InputBox";
 import ToDoListContainer from "../../components/ToDoListContainer/ToDoListContainer";
 import ToDOListForm from "../../components/ToDoListForm/ToDOListForm";
 import styles from "./ToDoList.module.css";
@@ -75,29 +74,12 @@ function ToDoList() {
       setActive(index);
     }
   };
-  const [search, setNewSearch] = useState("");
-
-  const handleSearchChange = (e) => {
-    setNewSearch(e.target.value);
-  };
-  const filtered = !search
-    ? todos
-    : todos.filter((item) =>
-        item.TodoValue.toLowerCase().includes(search.toLowerCase())
-      );
 
   return (
     <div>
       <Header />
 
       <ToDOListForm addItem={addItem} />
-      <div className={styles.search}>
-        <InputBox
-          value={search}
-          placeholder={"Find your item"}
-          handleOnchange={handleSearchChange}
-        />
-      </div>
 
       <div className={styles.tabs}>
         <div
@@ -132,8 +114,6 @@ function ToDoList() {
         updateItem={updateItem}
         setTaskToDo={setTaskToDo}
         setCompletedTask={setCompletedTask}
-        filtered={filtered}
-        searchStatus={search}
       />
     </div>
   );
