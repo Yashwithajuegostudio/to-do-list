@@ -13,6 +13,8 @@ function ToDoListContainer({
   activeContent,
   setTaskToDo,
   setCompletedTask,
+  searchStatus,
+  filtered,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState("");
@@ -59,81 +61,88 @@ function ToDoListContainer({
       togglePopup();
     }
   };
-  console.log(activeContent);
+
   return (
     <div className={styles.todo_list_container}>
-      <div className={activeContent === 0 ? "" : styles.hide_content}>
-        {todos.map(
-          (individualItem, index) =>
-            !individualItem.completed &&
-            !individualItem.toDo && (
-              <div key={index} className={styles.item_container}>
-                <span>{index + 1}</span>
-                <span>{individualItem.TodoValue}</span>
-                <div className={styles.todo_buttons}>
-                  <Button
-                    title={title.toDoBtnTitle}
-                    clickHandler={() => {
-                      onClickToDoHandler(index);
-                    }}
-                  ></Button>
-                  <Button
-                    title={title.EditBtnTitle}
-                    clickHandler={() => {
-                      onClickEditHandler(individualItem.TodoValue, index);
-                    }}
-                  ></Button>
-                  <Button
-                    title={title.DeleteBtnTitle}
-                    clickHandler={() => {
-                      onCliCkDeleteHandler(individualItem.ID);
-                    }}
-                  ></Button>
-                  {isOpen && (
-                    <PopUP
-                      title={
-                        status === title.DeleteBtnTitle
-                          ? message.deleteMessage
-                          : ""
-                      }
-                      content={
-                        <>
-                          {status === title.EditBtnTitle && (
-                            <InputBox
-                              handleOnchange={(e) =>
-                                setToDoValue(e.target.value)
-                              }
-                              value={toDoValue}
-                            />
-                          )}
+      <div
+        className={
+          activeContent === 0 && searchStatus === "" ? "" : styles.hide_content
+        }
+      >
+        {todos.map((individualItem, index) => (
+          // !individualItem.completed &&
+          // !individualItem.toDo &&
+          <div key={index} className={styles.item_container}>
+            <span>{index + 1}</span>
+            <span>{individualItem.TodoValue}</span>
+            <div className={styles.todo_buttons}>
+              <Button
+                title={title.toDoBtnTitle}
+                clickHandler={() => {
+                  onClickToDoHandler(index);
+                }}
+              ></Button>
+              <Button
+                title={title.EditBtnTitle}
+                clickHandler={() => {
+                  onClickEditHandler(individualItem.TodoValue, index);
+                }}
+              ></Button>
+              <Button
+                title={title.DeleteBtnTitle}
+                clickHandler={() => {
+                  onCliCkDeleteHandler(individualItem.ID);
+                }}
+              ></Button>
 
-                          <div className={styles.todo_buttons}>
-                            <Button
-                              title={title.cancelBtnTitle}
-                              clickHandler={togglePopup}
-                            ></Button>
-                            <Button
-                              title={
-                                status === title.DeleteBtnTitle
-                                  ? title.DeleteBtnTitle
-                                  : title.EditBtnTitle
-                              }
-                              clickHandler={() => {
-                                onClickPopUpBtnHandler(status);
-                              }}
-                            ></Button>
-                          </div>
-                        </>
-                      }
-                      handleClose={togglePopup}
-                    />
-                  )}
-                </div>
-              </div>
-            )
-        )}
+              {isOpen && (
+                <PopUP
+                  title={
+                    status === title.DeleteBtnTitle ? message.deleteMessage : ""
+                  }
+                  content={
+                    <>
+                      {status === title.EditBtnTitle && (
+                        <InputBox
+                          handleOnchange={(e) => setToDoValue(e.target.value)}
+                          value={toDoValue}
+                        />
+                      )}
+
+                      <div className={styles.todo_buttons}>
+                        <Button
+                          title={title.cancelBtnTitle}
+                          clickHandler={togglePopup}
+                        ></Button>
+                        <Button
+                          title={
+                            status === title.DeleteBtnTitle
+                              ? title.DeleteBtnTitle
+                              : title.EditBtnTitle
+                          }
+                          clickHandler={() => {
+                            onClickPopUpBtnHandler(status);
+                          }}
+                        ></Button>
+                      </div>
+                    </>
+                  }
+                  handleClose={togglePopup}
+                />
+              )}
+            </div>
+          </div>
+        ))}
       </div>
-
+      {/* search -todo */}
+      <div className={searchStatus !== "" ? "" : styles.hide_content}>
+        {filtered.map((individualItem, index) => (
+          <div key={index} className={styles.item_container}>
+            <span>{index + 1}</span>
+            <span>{individualItem.TodoValue}</span>
+          </div>
+        ))}
+      </div>
       {/* tab2 -todo */}
       <div className={activeContent === 1 ? "" : styles.hide_content}>
         {todos.map(
