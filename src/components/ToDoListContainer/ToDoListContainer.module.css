@@ -15,3 +15,9 @@
   padding: 2rem;
   justify-content: space-between;
 }
+.show_input {
+  display: block;
+}
+.hide_input {
+  display: none;
+}

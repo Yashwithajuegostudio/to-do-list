@@ -6,57 +6,64 @@ import PopUP from "../PopUp/PopUp";
 
 import styles from "./ToDoListContainer.module.css";
 
-function ToDoListContainer({ items, removeItem, updateItem }) {
+function ToDoListContainer({ todos, removeItem, updateItem }) {
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState("");
-  const [editingValue, setEditedValue] = useState("");
 
-  console.log(editingValue);
+  const [deleteId, setDeleteId] = useState();
+  const [toDoValue, setToDoValue] = useState();
+
+  // id state
+  const [id, setId] = useState();
+
   // toggle Popup
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
 
-  // edit and delete button handler functionality
-  const onClickBtnHandler = (btnStatus) => {
-    if (btnStatus === title.DeleteBtnTitle) {
-      setStatus(title.DeleteBtnTitle);
-      setIsOpen(!isOpen);
-    } else {
-      setStatus(title.EditBtnTitle);
-      setIsOpen(!isOpen);
-    }
+  //Edit button handler functionality
+  const onClickEditHandler = (toDoItem, index) => {
+    setStatus(title.EditBtnTitle);
+    setToDoValue(toDoItem);
+    setId(index);
+    togglePopup();
+  };
+  // delete button handler functionality
+  const onCliCkDeleteHandler = (id) => {
+    setStatus(title.DeleteBtnTitle);
+    setDeleteId(id);
+    togglePopup();
   };
   // delete button functionality
-  const onClickPopUpBtnHandler = (selectedItem, btnStatus, index) => {
+  const onClickPopUpBtnHandler = (btnStatus) => {
     if (btnStatus === title.DeleteBtnTitle) {
-      removeItem(selectedItem);
-      setIsOpen(!isOpen);
+      removeItem(deleteId);
+      togglePopup();
     } else {
-      updateItem(editingValue, index);
-      setIsOpen(!isOpen);
+      updateItem(toDoValue, id);
+      togglePopup();
     }
   };
 
   return (
     <div className={styles.todo_list_container}>
       <div>
-        {items.map((item, index) => (
+        {todos.map((individualItem, index) => (
           <div key={index} className={styles.item_container}>
             <span>{index + 1}</span>
-            <span>{item}</span>
+            <span>{individualItem.TodoValue}</span>
             <div className={styles.todo_buttons}>
               <Button title={title.toDoBtnTitle}></Button>
               <Button
                 title={title.EditBtnTitle}
                 clickHandler={() => {
-                  onClickBtnHandler(title.EditBtnTitle);
+                  onClickEditHandler(individualItem.TodoValue, index);
                 }}
               ></Button>
               <Button
                 title={title.DeleteBtnTitle}
                 clickHandler={() => {
-                  onClickBtnHandler(title.DeleteBtnTitle);
+                  onCliCkDeleteHandler(individualItem.ID);
                 }}
               ></Button>
               {isOpen && (
@@ -66,15 +73,13 @@ function ToDoListContainer({ items, removeItem, updateItem }) {
                   }
                   content={
                     <>
-                      <InputBox
-                        value={
-                          editingValue === null &&
-                          ((editingValue) => !editingValue)
-                            ? item
-                            : editingValue
-                        }
-                        handleOnchange={(e) => setEditedValue(e.target.value)}
-                      />
+                      {status === title.EditBtnTitle && (
+                        <InputBox
+                          handleOnchange={(e) => setToDoValue(e.target.value)}
+                          value={toDoValue}
+                        />
+                      )}
+
                       <div className={styles.todo_buttons}>
                         <Button
                           title={title.cancelBtnTitle}
@@ -87,7 +92,7 @@ function ToDoListContainer({ items, removeItem, updateItem }) {
                               : title.EditBtnTitle
                           }
                           clickHandler={() => {
-                            onClickPopUpBtnHandler(item, status, index);
+                            onClickPopUpBtnHandler(status);
                           }}
                         ></Button>
                       </div>
