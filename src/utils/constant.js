@@ -6,7 +6,7 @@ export const title = {
   saveBtnTitle: "Save",
   cancelBtnTitle: "Cancel",
   toDoBtnTitle: "ToDo",
-  completedBtnTitle: "Completed",
+  completedBtnTitle: "Complete",
   loginBtnTitle: "Login",
   searchTitle: "Search",
 };

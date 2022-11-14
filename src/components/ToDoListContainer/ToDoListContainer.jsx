@@ -84,29 +84,34 @@ function ToDoListContainer({
       </div>
       <div className={activeContent === 0 ? "" : styles.hide_content}>
         {toDoState.map((individualItem, index) => (
-          // !individualItem.completed &&
-          // !individualItem.toDo &&
           <div key={index} className={styles.item_container}>
             <span>{index + 1}</span>
             <span>{individualItem.TodoValue}</span>
             <div className={styles.todo_buttons}>
               <Button
-                title={title.toDoBtnTitle}
+                title={
+                  individualItem.completed
+                    ? title.completedBtnTitle
+                    : title.toDoBtnTitle
+                }
                 clickHandler={() => {
                   onClickToDoHandler(index);
                 }}
+                disabled={individualItem.toDo}
               ></Button>
               <Button
                 title={title.EditBtnTitle}
                 clickHandler={() => {
                   onClickEditHandler(individualItem.TodoValue, index);
                 }}
+                disabled={individualItem.completed}
               ></Button>
               <Button
                 title={title.DeleteBtnTitle}
                 clickHandler={() => {
                   onCliCkDeleteHandler(individualItem.ID);
                 }}
+                disabled={individualItem.completed}
               ></Button>
 
               {isOpen && (
