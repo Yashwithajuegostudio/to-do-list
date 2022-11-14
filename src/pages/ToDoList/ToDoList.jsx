@@ -4,8 +4,8 @@ import ToDoListContainer from "../../components/ToDoListContainer/ToDoListContai
 import ToDOListForm from "../../components/ToDoListForm/ToDOListForm";
 import styles from "./ToDoList.module.css";
 // get todos from local storage
-const getTodosFromLS = () => {
-  const data = localStorage.getItem("Todos");
+const getToListObjectFromStorage = () => {
+  const data = localStorage.getItem("TodoList");
   if (data) {
     return JSON.parse(data);
   } else {
@@ -14,7 +14,9 @@ const getTodosFromLS = () => {
 };
 function ToDoList() {
   // todos array of objects
-  const [todos, setTodos] = useState(getTodosFromLS());
+  const [todoListObject, setTodoListObject] = useState(
+    getToListObjectFromStorage()
+  );
   // add the input field item to object todoObject
   const addItem = (item) => {
     // creating a ID for every todo
@@ -29,43 +31,43 @@ function ToDoList() {
       toDo: false,
     };
     // updating todos state
-    setTodos([...todos, todoObject]);
+    setTodoListObject([...todoListObject, todoObject]);
   };
   // saving data to local storage
   useEffect(() => {
-    localStorage.setItem("Todos", JSON.stringify(todos));
-  }, [todos]);
+    localStorage.setItem("TodoList", JSON.stringify(todoListObject));
+  }, [todoListObject]);
 
   // remove data from local storage
   const removeItem = (id) => {
-    const filtered = todos.filter((todo) => {
+    const filtered = todoListObject.filter((todo) => {
       return todo.ID !== id;
     });
-    setTodos(filtered);
+    setTodoListObject(filtered);
   };
   // update data to local storage
   const updateItem = (itemToBeUpdated, id) => {
-    let items = [...todos];
+    let items = [...todoListObject];
     let item = items[id];
     item.TodoValue = itemToBeUpdated;
     items[id] = item;
-    setTodos(items);
+    setTodoListObject(items);
   };
   // add task to to do list
   const setTaskToDo = (id) => {
-    let items = [...todos];
+    let items = [...todoListObject];
     let item = items[id];
     item.toDo = true;
     items[id] = item;
-    setTodos(items);
+    setTodoListObject(items);
   };
   // add task to completed list
   const setCompletedTask = (id) => {
-    let items = [...todos];
+    let items = [...todoListObject];
     let item = items[id];
     item.completed = true;
     items[id] = item;
-    setTodos(items);
+    setTodoListObject(items);
   };
   const [active, setActive] = useState(0);
   const handleClick = (e) => {
@@ -83,7 +85,7 @@ function ToDoList() {
 
       <div className={styles.tabs}>
         <div
-          className={styles.todolist_title}
+          className={styles.todo_list_title}
           onClick={handleClick}
           active={active === 0}
           id={0}
@@ -91,7 +93,7 @@ function ToDoList() {
           All
         </div>
         <div
-          className={styles.todolist_title}
+          className={styles.todo_list_title}
           onClick={handleClick}
           active={active === 1}
           id={1}
@@ -99,7 +101,7 @@ function ToDoList() {
           ToDo
         </div>
         <div
-          className={styles.todolist_title}
+          className={styles.todo_list_title}
           onClick={handleClick}
           active={active === 2}
           id={2}
@@ -108,7 +110,7 @@ function ToDoList() {
         </div>
       </div>
       <ToDoListContainer
-        todos={todos}
+        todoListObject={todoListObject}
         activeContent={active}
         removeItem={removeItem}
         updateItem={updateItem}

@@ -19,3 +19,7 @@ export const UserDetails = {
   userId: "user12@",
   userName: "User",
 };
+export const taskStatus = {
+  completedStatus: "completed",
+  todoStatus: "todo",
+};

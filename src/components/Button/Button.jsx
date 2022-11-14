@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "./Button.module.css";
 
-function Button({ clickHandler, title, style, position }) {
+function Button({ clickHandler, title, style, disabled }) {
   return (
     <button
       className={styles.btn}
-      id={position}
       style={style}
       onClick={clickHandler}
+      disabled={disabled}
     >
       {title}
     </button>

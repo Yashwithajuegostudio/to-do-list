@@ -7,7 +7,7 @@ import PopUP from "../PopUp/PopUp";
 import styles from "./ToDoListContainer.module.css";
 
 function ToDoListContainer({
-  todos,
+  todoListObject,
   removeItem,
   updateItem,
   activeContent,
@@ -19,7 +19,7 @@ function ToDoListContainer({
 
   const [deleteId, setDeleteId] = useState();
   const [toDoValue, setToDoValue] = useState();
-  const [toDoState, setToDoState] = useState(todos);
+  const [toDoState, setToDoState] = useState(todoListObject);
   // id state
   const [id, setId] = useState();
 
@@ -28,7 +28,7 @@ function ToDoListContainer({
     setIsOpen(!isOpen);
   };
 
-  // complete button handler functionlity
+  // complete button handler functionality
   const onClickCompleteHandler = (index) => {
     setCompletedTask(index);
   };
@@ -61,8 +61,8 @@ function ToDoListContainer({
   };
   const handleSearchChange = (value) => {
     const filtered = !value
-      ? todos
-      : todos.filter((item) =>
+      ? todoListObject
+      : todoListObject.filter((item) =>
           item.TodoValue.toLowerCase().includes(value.toLowerCase())
         );
     console.log(filtered);
