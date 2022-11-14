@@ -3,7 +3,7 @@ import Header from "../../components/Header/Header";
 import ToDoListContainer from "../../components/ToDoListContainer/ToDoListContainer";
 import ToDOListForm from "../../components/ToDoListForm/ToDOListForm";
 import styles from "./ToDoList.module.css";
-// get todos from local storage
+// get TodoListObject from local storage
 const getToListObjectFromStorage = () => {
   const data = localStorage.getItem("TodoList");
   if (data) {
@@ -13,7 +13,7 @@ const getToListObjectFromStorage = () => {
   }
 };
 function ToDoList() {
-  // todos array of objects
+  // TodoListObject array of objects
   const [todoListObject, setTodoListObject] = useState(
     getToListObjectFromStorage()
   );
@@ -30,7 +30,8 @@ function ToDoList() {
       completed: false,
       toDo: false,
     };
-    // updating todos state
+    // updating TodoListObject state
+    console.log(todoListObject);
     setTodoListObject([...todoListObject, todoObject]);
   };
   // saving data to local storage

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { message, title } from "../../utils/constant";
 import Button from "../Button/Button";
 import InputBox from "../InputBox/InputBox";
@@ -14,6 +14,7 @@ function ToDoListContainer({
   setTaskToDo,
   setCompletedTask,
 }) {
+  console.log(todoListObject);
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState("");
 
@@ -22,6 +23,9 @@ function ToDoListContainer({
   const [toDoState, setToDoState] = useState(todoListObject);
   // id state
   const [id, setId] = useState();
+  useEffect(() => {
+    setToDoState(todoListObject);
+  }, [todoListObject]);
 
   // toggle Popup
   const togglePopup = () => {
