@@ -13,3 +13,9 @@ export const title = {
 export const message = {
   deleteMessage: "Are you sure want to delete?",
 };
+
+// user
+export const UserDetails = {
+  userId: "user12@",
+  userName: "User",
+};

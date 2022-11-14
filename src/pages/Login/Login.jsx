@@ -1,9 +1,8 @@
 import React from "react";
 import Form from "../../components/Form/Form";
 import Header from "../../components/Header/Header";
-import { title } from "../../utils/constant";
+import { title, UserDetails } from "../../utils/constant";
 import styles from "./Login.module.css";
-// import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -13,9 +12,10 @@ function Login() {
   // add button functionality
   const handleSubmit = (e) => {
     e.preventDefault();
-    // addItem(userInput);
+    userInput === UserDetails.userId
+      ? navigate("/todolist")
+      : alert("Invalid user");
     setUserInput("");
-    navigate("/todolist");
   };
   return (
     <div className={styles.login_container}>
