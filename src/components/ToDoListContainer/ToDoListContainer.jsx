@@ -14,7 +14,6 @@ function ToDoListContainer({
   setTaskToDo,
   setCompletedTask,
 }) {
-  console.log(todoListObject);
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState("");
 

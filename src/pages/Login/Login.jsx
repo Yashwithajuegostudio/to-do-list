@@ -7,15 +7,26 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [userInput, setUserInput] = useState("");
-  let navigate = useNavigate();
+  const [userID, setUserID] = useState("");
+  const navigate = useNavigate();
+  const [authenticated, setauthenticated] = useState(
+    localStorage.getItem(localStorage.getItem("authenticated"))
+  );
+
+  const users = [{ username: UserDetails.userId }];
+
   // add button functionality
   const handleSubmit = (e) => {
     e.preventDefault();
-    userInput === UserDetails.userId
-      ? navigate("/todolist")
-      : alert("Invalid user");
-    setUserInput("");
+    const account = users.find((user) => user.username === userID);
+    if (account) {
+      setauthenticated(true);
+      localStorage.setItem("authenticated", true);
+      navigate("/todolist");
+    } else {
+      alert("Invalid user");
+    }
+    setUserID("");
   };
   return (
     <div className={styles.login_container}>
@@ -23,8 +34,8 @@ function Login() {
       <Form
         btnTitle={title.loginBtnTitle}
         handleSubmit={handleSubmit}
-        userInput={userInput}
-        setUserInput={setUserInput}
+        userInput={userID}
+        setUserInput={setUserID}
       />
     </div>
   );

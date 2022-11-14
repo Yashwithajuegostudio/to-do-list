@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
 import ToDoListContainer from "../../components/ToDoListContainer/ToDoListContainer";
 import ToDOListForm from "../../components/ToDoListForm/ToDOListForm";
@@ -31,7 +33,6 @@ function ToDoList() {
       toDo: false,
     };
     // updating TodoListObject state
-    console.log(todoListObject);
     setTodoListObject([...todoListObject, todoObject]);
   };
   // saving data to local storage
@@ -77,9 +78,33 @@ function ToDoList() {
       setActive(index);
     }
   };
+  const [authenticated, setauthenticated] = useState(null);
+  let navigate = useNavigate();
+  const ClickLogoutHandler = () => {
+    setauthenticated(false);
+    if (authenticated === false) {
+      navigate("/");
+    }
+  };
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("authenticated");
+
+    if (loggedInUser) {
+      setauthenticated(loggedInUser);
+    }
+  }, []);
 
   return (
     <div>
+      <Button
+        title={"Logout"}
+        clickHandler={() => {
+          ClickLogoutHandler();
+        }}
+      >
+        {" "}
+      </Button>
       <Header />
 
       <ToDOListForm addItem={addItem} />
@@ -110,6 +135,7 @@ function ToDoList() {
           Completed
         </div>
       </div>
+
       <ToDoListContainer
         todoListObject={todoListObject}
         activeContent={active}

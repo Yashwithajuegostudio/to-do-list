@@ -11,7 +11,7 @@
 }
 .item_container {
   display: flex;
-  gap: 10rem;
+  gap: 3rem;
   border: 0.1rem solid var(--primary-black);
   padding: 2rem;
   justify-content: space-between;
