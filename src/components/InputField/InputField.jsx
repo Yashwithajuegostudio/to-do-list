@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./InputBox.module.css";
+import styles from "./InputField.module.css";
 
-function InputBox({ handleOnchange, value, id, name, placeholder }) {
+function InputField({ handleOnchange, value, id, name, placeholder }) {
   return (
     <input
       className={styles.input_box}
@@ -10,8 +10,8 @@ function InputBox({ handleOnchange, value, id, name, placeholder }) {
       id={id}
       name={name}
       placeholder={placeholder}
-    ></input>
+    />
   );
 }
 
-export default InputBox;
+export default InputField;

@@ -27,3 +27,15 @@ export const taskStatus = {
   completedStatus: "completed",
   todoStatus: "todo",
 };
+
+// tab Id
+export const tabId = {
+  firstTabId: 0,
+  secondTabId: 1,
+  thirdTabID: 2,
+};
+
+// placeholder value
+export const placeholderValue = {
+  searchBtnPlaceholder: "Find your item",
+};
