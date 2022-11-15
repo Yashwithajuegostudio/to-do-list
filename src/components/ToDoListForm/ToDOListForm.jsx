@@ -14,7 +14,7 @@ function ToDOListForm({ addItem }) {
   };
   return (
     <Form
-      btnTitle={title.AddBtnTitle}
+      btnTitle={title.addBtnTitle}
       handleSubmit={handleSubmit}
       userInput={userInput}
       setUserInput={setUserInput}

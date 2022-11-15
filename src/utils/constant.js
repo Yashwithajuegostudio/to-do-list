@@ -1,8 +1,8 @@
 // Title
 export const title = {
-  AddBtnTitle: "Add",
-  DeleteBtnTitle: "Delete",
-  EditBtnTitle: "Edit",
+  addBtnTitle: "Add",
+  deleteBtnTitle: "Delete",
+  editBtnTitle: "Edit",
   saveBtnTitle: "Save",
   cancelBtnTitle: "Cancel",
   toDoBtnTitle: "ToDo",
@@ -12,6 +12,7 @@ export const title = {
   allTab: "All",
   toDoTab: "ToDo",
   completedTab: "Completed",
+  logoutBtnTitle: "Logout",
 };
 export const message = {
   deleteMessage: "Are you sure want to delete?",

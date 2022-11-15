@@ -9,18 +9,19 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const [userID, setUserID] = useState("");
   const navigate = useNavigate();
-  const [, setAuthenticated] = useState(
+  const [authenticated, setAuthenticated] = useState(
     localStorage.getItem(localStorage.getItem("authenticated"))
   );
 
-  const users = [{ username: UserDetails.userId }];
+  const user = {
+    userId: UserDetails.userId,
+  };
 
   // add button functionality
   const handleSubmit = (e) => {
     e.preventDefault();
-    const account = users.find((user) => user.username === userID);
-    if (account) {
-      setAuthenticated(true);
+    if (user.userId === userID) {
+      setAuthenticated(authenticated);
       localStorage.setItem("authenticated", true);
       navigate("/todolist");
     } else {

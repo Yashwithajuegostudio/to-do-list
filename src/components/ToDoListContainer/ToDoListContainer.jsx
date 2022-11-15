@@ -10,10 +10,8 @@ import styles from "./ToDoListContainer.module.css";
 function ToDoListContainer({
   todoListObject,
   removeItem,
-  updateItem,
+  updateStatus,
   activeContent,
-  setTaskToDo,
-  setCompletedTask,
 }) {
   const [isOpenPopUp, setIsOpenPopUP] = useState(false);
   const [btnStatus, setBtnStatus] = useState("");
@@ -31,19 +29,16 @@ function ToDoListContainer({
     setIsOpenPopUP(!isOpenPopUp);
   };
 
-  // complete button handler functionality
-  const onClickCompleteHandler = (index) => {
-    setCompletedTask(index);
-  };
-
-  // TODo button Handler functionality
-  const onClickToDoHandler = (index) => {
-    setTaskToDo(index);
+  // Tab button handler functionality
+  const onClickTabStatusHandler = (btnIndex, btnStatus) => {
+    btnStatus === title.toDoBtnTitle
+      ? updateStatus(btnIndex, btnStatus)
+      : updateStatus(btnIndex, btnStatus);
   };
 
   //Edit button handler functionality
   const onClickEditHandler = (toDoItem, index) => {
-    setBtnStatus(title.EditBtnTitle);
+    setBtnStatus(title.editBtnTitle);
     setToDoListValue(toDoItem);
     setToDoObjectID(index);
     togglePopup();
@@ -51,18 +46,16 @@ function ToDoListContainer({
 
   // delete button handler functionality
   const onCliCkDeleteHandler = (id) => {
-    setBtnStatus(title.DeleteBtnTitle);
+    setBtnStatus(title.deleteBtnTitle);
     setDeleteId(id);
     togglePopup();
   };
 
   // popUp button functionality
   const onClickPopUpBtnHandler = (btnStatus) => {
-    if (btnStatus === title.DeleteBtnTitle) {
-      removeItem(deleteId);
-    } else {
-      updateItem(toDoListValue, toDoObjectID);
-    }
+    btnStatus === title.deleteBtnTitle
+      ? removeItem(deleteId)
+      : updateStatus(toDoObjectID, btnStatus, toDoListValue);
     togglePopup();
   };
 
@@ -104,19 +97,19 @@ function ToDoListContainer({
                     : title.toDoBtnTitle
                 }
                 clickHandler={() => {
-                  onClickToDoHandler(index);
+                  onClickTabStatusHandler(index, title.toDoBtnTitle);
                 }}
                 disabled={individualItem.toDo}
               />
               <Button
-                title={title.EditBtnTitle}
+                title={title.editBtnTitle}
                 clickHandler={() => {
                   onClickEditHandler(individualItem.TodoValue, index);
                 }}
                 disabled={individualItem.completed}
               />
               <Button
-                title={title.DeleteBtnTitle}
+                title={title.deleteBtnTitle}
                 clickHandler={() => {
                   onCliCkDeleteHandler(individualItem.ID);
                 }}
@@ -126,13 +119,13 @@ function ToDoListContainer({
               {isOpenPopUp && (
                 <PopUP
                   title={
-                    btnStatus === title.DeleteBtnTitle
+                    btnStatus === title.deleteBtnTitle
                       ? message.deleteMessage
                       : ""
                   }
                   content={
                     <>
-                      {btnStatus === title.EditBtnTitle && (
+                      {btnStatus === title.editBtnTitle && (
                         <InputField
                           handleOnchange={(e) =>
                             setToDoListValue(e.target.value)
@@ -148,9 +141,9 @@ function ToDoListContainer({
                         />
                         <Button
                           title={
-                            btnStatus === title.DeleteBtnTitle
-                              ? title.DeleteBtnTitle
-                              : title.EditBtnTitle
+                            btnStatus === title.deleteBtnTitle
+                              ? title.deleteBtnTitle
+                              : title.editBtnTitle
                           }
                           clickHandler={() => {
                             onClickPopUpBtnHandler(btnStatus);
@@ -184,17 +177,17 @@ function ToDoListContainer({
                   <Button
                     title={title.completedBtnTitle}
                     clickHandler={() => {
-                      onClickCompleteHandler(index);
+                      onClickTabStatusHandler(index, title.completedBtnTitle);
                     }}
                   />
                   <Button
-                    title={title.EditBtnTitle}
+                    title={title.editBtnTitle}
                     clickHandler={() => {
                       onClickEditHandler(individualItem.TodoValue, index);
                     }}
                   />
                   <Button
-                    title={title.DeleteBtnTitle}
+                    title={title.deleteBtnTitle}
                     clickHandler={() => {
                       onCliCkDeleteHandler(individualItem.ID);
                     }}
@@ -202,13 +195,13 @@ function ToDoListContainer({
                   {isOpenPopUp && (
                     <PopUP
                       title={
-                        btnStatus === title.DeleteBtnTitle
+                        btnStatus === title.deleteBtnTitle
                           ? message.deleteMessage
                           : ""
                       }
                       content={
                         <>
-                          {btnStatus === title.EditBtnTitle && (
+                          {btnStatus === title.editBtnTitle && (
                             <InputField
                               handleOnchange={(e) =>
                                 setToDoListValue(e.target.value)
@@ -224,9 +217,9 @@ function ToDoListContainer({
                             />
                             <Button
                               title={
-                                btnStatus === title.DeleteBtnTitle
-                                  ? title.DeleteBtnTitle
-                                  : title.EditBtnTitle
+                                btnStatus === title.deleteBtnTitle
+                                  ? title.deleteBtnTitle
+                                  : title.editBtnTitle
                               }
                               clickHandler={() => {
                                 onClickPopUpBtnHandler(btnStatus);

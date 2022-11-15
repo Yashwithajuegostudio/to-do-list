@@ -55,27 +55,16 @@ function ToDoList() {
     });
     setTodoListObject(filtered);
   };
-  // update data to local storage
-  const updateItem = (itemToBeUpdated, id) => {
+
+  // update the status of edit,todo,complete buttons
+  const updateStatus = (id, btnStatus, itemToBeUpdated) => {
     let items = [...todoListObject];
     let item = items[id];
-    item.TodoValue = itemToBeUpdated;
-    items[id] = item;
-    setTodoListObject(items);
-  };
-  // add task to to do list
-  const setTaskToDo = (id) => {
-    let items = [...todoListObject];
-    let item = items[id];
-    item.toDo = true;
-    items[id] = item;
-    setTodoListObject(items);
-  };
-  // add task to completed list
-  const setCompletedTask = (id) => {
-    let items = [...todoListObject];
-    let item = items[id];
-    item.completed = true;
+    btnStatus === title.editBtnTitle
+      ? (item.TodoValue = itemToBeUpdated)
+      : btnStatus === title.toDoBtnTitle
+      ? (item.toDo = true)
+      : (item.completed = true);
     items[id] = item;
     setTodoListObject(items);
   };
@@ -90,8 +79,11 @@ function ToDoList() {
 
   // Logout Click handler functionality
   const onClickLogoutHandler = () => {
-    setAuthenticated(false);
-    if (authenticated === false) {
+    localStorage.setItem("authenticated", false);
+    const loggedOutUser = localStorage.getItem("authenticated");
+    if (loggedOutUser) {
+      setAuthenticated(false);
+      console.log(authenticated);
       navigate("/");
     }
   };
@@ -106,12 +98,11 @@ function ToDoList() {
   return (
     <>
       <Button
-        title={"Logout"}
+        title={title.logoutBtnTitle}
         clickHandler={() => {
           onClickLogoutHandler();
         }}
       />
-
       <Header />
       <ToDOListForm addItem={addItem} />
       <div className={styles.tabs}>
@@ -139,9 +130,7 @@ function ToDoList() {
         todoListObject={todoListObject}
         activeContent={active}
         removeItem={removeItem}
-        updateItem={updateItem}
-        setTaskToDo={setTaskToDo}
-        setCompletedTask={setCompletedTask}
+        updateStatus={updateStatus}
       />
     </>
   );
