@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
+import Tab from "../../components/Tab/Tab";
 import ToDoListContainer from "../../components/ToDoListContainer/ToDoListContainer";
 import ToDOListForm from "../../components/ToDoListForm/ToDOListForm";
+import { title } from "../../utils/constant";
 import styles from "./ToDoList.module.css";
 // get TodoListObject from local storage
 const getToListObjectFromStorage = () => {
@@ -78,10 +80,11 @@ function ToDoList() {
       setActive(index);
     }
   };
-  const [authenticated, setauthenticated] = useState(null);
+
+  const [authenticated, setAuthenticated] = useState(null);
   let navigate = useNavigate();
   const ClickLogoutHandler = () => {
-    setauthenticated(false);
+    setAuthenticated(false);
     if (authenticated === false) {
       navigate("/");
     }
@@ -89,51 +92,41 @@ function ToDoList() {
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
-
     if (loggedInUser) {
-      setauthenticated(loggedInUser);
+      setAuthenticated(loggedInUser);
     }
   }, []);
 
   return (
-    <div>
+    <>
       <Button
         title={"Logout"}
         clickHandler={() => {
           ClickLogoutHandler();
         }}
-      >
-        {" "}
-      </Button>
+      />
+
       <Header />
-
       <ToDOListForm addItem={addItem} />
-
       <div className={styles.tabs}>
-        <div
-          className={styles.todo_list_title}
+        <Tab
           onClick={handleClick}
+          tabTitle={title.allTab}
           active={active === 0}
-          id={0}
-        >
-          All
-        </div>
-        <div
-          className={styles.todo_list_title}
+          tabID={0}
+        />
+        <Tab
           onClick={handleClick}
+          tabTitle={title.toDoTab}
           active={active === 1}
-          id={1}
-        >
-          ToDo
-        </div>
-        <div
-          className={styles.todo_list_title}
+          tabID={1}
+        />
+        <Tab
           onClick={handleClick}
+          tabTitle={title.completedTab}
           active={active === 2}
-          id={2}
-        >
-          Completed
-        </div>
+          tabID={2}
+        />
       </div>
 
       <ToDoListContainer
@@ -144,7 +137,7 @@ function ToDoList() {
         setTaskToDo={setTaskToDo}
         setCompletedTask={setCompletedTask}
       />
-    </div>
+    </>
   );
 }
 

@@ -9,6 +9,9 @@ export const title = {
   completedBtnTitle: "Complete",
   loginBtnTitle: "Login",
   searchTitle: "Search",
+  allTab: "All",
+  toDoTab: "ToDo",
+  completedTab: "Completed",
 };
 export const message = {
   deleteMessage: "Are you sure want to delete?",

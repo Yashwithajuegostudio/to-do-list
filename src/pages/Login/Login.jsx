@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const [userID, setUserID] = useState("");
   const navigate = useNavigate();
-  const [authenticated, setauthenticated] = useState(
+  const [, setAuthenticated] = useState(
     localStorage.getItem(localStorage.getItem("authenticated"))
   );
 
@@ -20,7 +20,7 @@ function Login() {
     e.preventDefault();
     const account = users.find((user) => user.username === userID);
     if (account) {
-      setauthenticated(true);
+      setAuthenticated(true);
       localStorage.setItem("authenticated", true);
       navigate("/todolist");
     } else {
