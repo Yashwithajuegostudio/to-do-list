@@ -5,18 +5,10 @@ import Header from "../../components/Header/Header";
 import Tab from "../../components/Tab/Tab";
 import ToDoListContainer from "../../components/ToDoListContainer/ToDoListContainer";
 import ToDOListForm from "../../components/ToDoListForm/ToDOListForm";
-import { tabId, title } from "../../utils/constant";
+import { tabNumber, title } from "../../utils/constant";
+import { getToListObjectFromStorage } from "../../utils/helper";
 import styles from "./ToDoList.module.css";
 
-// get TodoListObject from local storage
-const getToListObjectFromStorage = () => {
-  const data = localStorage.getItem("TodoList");
-  if (data) {
-    return JSON.parse(data);
-  } else {
-    return [];
-  }
-};
 function ToDoList() {
   // active tab state
   const [active, setActive] = useState(0);
@@ -38,8 +30,6 @@ function ToDoList() {
       ID: time,
       TodoValue: item,
       todoStatus: 0,
-      // completed: false,
-      // toDo: false,
     };
     // updating TodoListObject state
     setTodoListObject([...todoListObject, todoObject]);
@@ -68,7 +58,6 @@ function ToDoList() {
         ? (filteredId.todoStatus = 1)
         : (filteredId.todoStatus = 2);
     }
-
     setTodoListObject(items);
   };
 
@@ -80,22 +69,23 @@ function ToDoList() {
     }
   };
 
+  const checkUserForLoginStatus = (userStatus) => {
+    userStatus === false
+      ? setAuthenticated(userStatus)(navigate("/"))
+      : setAuthenticated(userStatus);
+  };
   // Logout Click handler functionality
   const onClickLogoutHandler = () => {
     localStorage.setItem("authenticated", false);
     const loggedOutUser = localStorage.getItem("authenticated");
-    if (loggedOutUser) {
-      setAuthenticated(false);
-      console.log(authenticated);
-      navigate("/");
-    }
+    console.log(loggedOutUser);
+    checkUserForLoginStatus(loggedOutUser);
   };
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
-    if (loggedInUser) {
-      setAuthenticated(loggedInUser);
-    }
+    console.log(loggedInUser);
+    checkUserForLoginStatus(loggedInUser);
   }, []);
 
   return (
@@ -112,20 +102,20 @@ function ToDoList() {
         <Tab
           onClick={handleTabClick}
           tabTitle={title.allTab}
-          active={active === tabId.firstTabId}
-          tabID={tabId.firstTabId}
+          active={active === tabNumber.Tab_One}
+          tabID={tabNumber.Tab_One}
         />
         <Tab
           onClick={handleTabClick}
           tabTitle={title.toDoTab}
-          active={active === tabId.secondTabId}
-          tabID={tabId.secondTabId}
+          active={active === tabNumber.Tab_Two}
+          tabID={tabNumber.Tab_Two}
         />
         <Tab
           onClick={handleTabClick}
           tabTitle={title.completedTab}
-          active={active === tabId.thirdTabID}
-          tabID={tabId.thirdTabID}
+          active={active === tabNumber.Tab_Three}
+          tabID={tabNumber.Tab_Three}
         />
       </div>
 

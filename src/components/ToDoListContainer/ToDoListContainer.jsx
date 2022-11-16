@@ -25,7 +25,7 @@ function ToDoListContainer({
       setToDoListState(todoListObject);
     } else {
       setToDoListState(
-        todoListObject.filter((item, index) => {
+        todoListObject.filter((item) => {
           if (item.todoStatus === activeContent) {
             return item;
           }

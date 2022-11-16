@@ -30,10 +30,10 @@ export const taskStatus = {
 };
 
 // tab Id
-export const tabId = {
-  firstTabId: 0,
-  secondTabId: 1,
-  thirdTabID: 2,
+export const tabNumber = {
+  Tab_One: 0,
+  Tab_Two: 1,
+  Tab_Three: 2,
 };
 
 // placeholder value
