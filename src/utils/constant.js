@@ -29,7 +29,7 @@ export const taskStatus = {
   todoStatus: "todo",
 };
 
-// tab Id
+// tab Number
 export const tabNumber = {
   Tab_One: 0,
   Tab_Two: 1,
@@ -40,3 +40,10 @@ export const tabNumber = {
 export const placeholderValue = {
   searchBtnPlaceholder: "Find your item",
 };
+
+// Route Path
+export const Path = {
+  todoListPath: "/todolist",
+};
+
+export const INITIAL_ACTIVE_TAB_INDEX = 0;

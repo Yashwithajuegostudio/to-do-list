@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { message, placeholderValue, title } from "../../utils/constant";
+import {
+  message,
+  placeholderValue,
+  tabNumber,
+  title,
+} from "../../utils/constant";
 import Button from "../Button/Button";
 import InputField from "../InputField/InputField";
 
@@ -21,7 +26,7 @@ function ToDoListContainer({
   const [toDoObjectID, setToDoObjectID] = useState();
 
   useEffect(() => {
-    if (activeContent === 0) {
+    if (activeContent === tabNumber.Tab_One) {
       setToDoListState(todoListObject);
     } else {
       setToDoListState(
@@ -36,7 +41,7 @@ function ToDoListContainer({
 
   // toggle Popup functionality
   const togglePopup = () => {
-    setIsOpenPopUP(!isOpenPopUp);
+    setIsOpenPopUP((isOpenPopUp) => !isOpenPopUp);
   };
 
   // Tab button handler functionality
@@ -94,20 +99,23 @@ function ToDoListContainer({
           <div key={index} className={styles.item_container}>
             <span>{index + 1}</span>
             <span>{item.TodoValue}</span>
-            {activeContent === 0 && (
+            {activeContent === tabNumber.Tab_One && (
               <Button
                 title={
-                  item.todoStatus === 2
+                  item.todoStatus === tabNumber.Tab_Three
                     ? title.completedBtnTitle
                     : title.toDoBtnTitle
                 }
                 clickHandler={() => {
                   onClickTabStatusHandler(item.ID, title.toDoBtnTitle);
                 }}
-                disabled={item.todoStatus === 1 || item.todoStatus === 2}
+                disabled={
+                  item.todoStatus === tabNumber.Tab_Two ||
+                  item.todoStatus === tabNumber.Tab_Three
+                }
               />
             )}
-            {activeContent === 1 && (
+            {activeContent === tabNumber.Tab_Two && (
               <Button
                 title={title.completedBtnTitle}
                 clickHandler={() => {
@@ -115,21 +123,21 @@ function ToDoListContainer({
                 }}
               />
             )}
-            {activeContent !== 2 && (
+            {activeContent !== tabNumber.Tab_Three && (
               <>
                 <Button
                   title={title.editBtnTitle}
                   clickHandler={() => {
                     onClickEditHandler(item.TodoValue, item.ID);
                   }}
-                  disabled={item.todoStatus === 2}
+                  disabled={item.todoStatus === tabNumber.Tab_Three}
                 />
                 <Button
                   title={title.deleteBtnTitle}
                   clickHandler={() => {
                     onCliCkDeleteHandler(item.ID);
                   }}
-                  disabled={item.todoStatus === 2}
+                  disabled={item.todoStatus === tabNumber.Tab_Three}
                 />
 
                 {isOpenPopUp && (

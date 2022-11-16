@@ -7,12 +7,13 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
+import { Path } from "./utils/constant";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/todolist" element={<ToDoList />} />
+        <Route path={Path.todoListPath} element={<ToDoList />} />
         <Route path="/" element={<Login />} />
       </Routes>
     </BrowserRouter>

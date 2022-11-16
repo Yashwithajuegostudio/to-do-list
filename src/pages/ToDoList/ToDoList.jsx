@@ -5,15 +5,22 @@ import Header from "../../components/Header/Header";
 import Tab from "../../components/Tab/Tab";
 import ToDoListContainer from "../../components/ToDoListContainer/ToDoListContainer";
 import ToDOListForm from "../../components/ToDoListForm/ToDOListForm";
-import { tabNumber, title } from "../../utils/constant";
+import {
+  INITIAL_ACTIVE_TAB_INDEX,
+  tabNumber,
+  title,
+} from "../../utils/constant";
 import { getToListObjectFromStorage } from "../../utils/helper";
 import styles from "./ToDoList.module.css";
 
 function ToDoList() {
   // active tab state
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(INITIAL_ACTIVE_TAB_INDEX);
   // authentication state
-  const [authenticated, setAuthenticated] = useState(null);
+  const [authenticated, setAuthenticated] = useState(
+    localStorage.getItem("authenticated")
+  );
+  console.log(authenticated);
   let navigate = useNavigate();
   // TodoListObject array of objects
   const [todoListObject, setTodoListObject] = useState(
@@ -55,8 +62,8 @@ function ToDoList() {
       btnStatus === title.editBtnTitle
         ? (filteredId.TodoValue = itemToBeUpdated)
         : btnStatus === title.toDoBtnTitle
-        ? (filteredId.todoStatus = 1)
-        : (filteredId.todoStatus = 2);
+        ? (filteredId.todoStatus = tabNumber.Tab_Two)
+        : (filteredId.todoStatus = tabNumber.Tab_Three);
     }
     setTodoListObject(items);
   };
@@ -69,64 +76,60 @@ function ToDoList() {
     }
   };
 
-  const checkUserForLoginStatus = (userStatus) => {
-    userStatus === false
-      ? setAuthenticated(userStatus)(navigate("/"))
-      : setAuthenticated(userStatus);
-  };
   // Logout Click handler functionality
   const onClickLogoutHandler = () => {
     localStorage.setItem("authenticated", false);
     const loggedOutUser = localStorage.getItem("authenticated");
-    console.log(loggedOutUser);
-    checkUserForLoginStatus(loggedOutUser);
+
+    if (loggedOutUser) {
+      setAuthenticated(loggedOutUser);
+      navigate("/");
+    }
+    console.log(authenticated);
   };
-
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("authenticated");
-    console.log(loggedInUser);
-    checkUserForLoginStatus(loggedInUser);
-  }, []);
-
-  return (
-    <>
-      <Button
-        title={title.logoutBtnTitle}
-        clickHandler={() => {
-          onClickLogoutHandler();
-        }}
-      />
-      <Header />
-      <ToDOListForm addItem={addItem} />
-      <div className={styles.tabs}>
-        <Tab
-          onClick={handleTabClick}
-          tabTitle={title.allTab}
-          active={active === tabNumber.Tab_One}
-          tabID={tabNumber.Tab_One}
+  if (localStorage.getItem("authenticated")) {
+    return (
+      <>
+        <Button
+          title={title.logoutBtnTitle}
+          clickHandler={() => {
+            onClickLogoutHandler();
+          }}
         />
-        <Tab
-          onClick={handleTabClick}
-          tabTitle={title.toDoTab}
-          active={active === tabNumber.Tab_Two}
-          tabID={tabNumber.Tab_Two}
-        />
-        <Tab
-          onClick={handleTabClick}
-          tabTitle={title.completedTab}
-          active={active === tabNumber.Tab_Three}
-          tabID={tabNumber.Tab_Three}
-        />
-      </div>
+        <Header />
+        <ToDOListForm addItem={addItem} />
+        <div className={styles.tabs}>
+          <Tab
+            onClick={handleTabClick}
+            tabTitle={title.allTab}
+            active={active === tabNumber.Tab_One}
+            tabID={tabNumber.Tab_One}
+          />
+          <Tab
+            onClick={handleTabClick}
+            tabTitle={title.toDoTab}
+            active={active === tabNumber.Tab_Two}
+            tabID={tabNumber.Tab_Two}
+          />
+          <Tab
+            onClick={handleTabClick}
+            tabTitle={title.completedTab}
+            active={active === tabNumber.Tab_Three}
+            tabID={tabNumber.Tab_Three}
+          />
+        </div>
 
-      <ToDoListContainer
-        todoListObject={todoListObject}
-        activeContent={active}
-        removeItem={removeItem}
-        updateStatus={updateStatus}
-      />
-    </>
-  );
+        <ToDoListContainer
+          todoListObject={todoListObject}
+          activeContent={active}
+          removeItem={removeItem}
+          updateStatus={updateStatus}
+        />
+      </>
+    );
+  } else {
+    navigate("/");
+  }
 }
 
 export default ToDoList;

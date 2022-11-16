@@ -1,7 +1,7 @@
 import React from "react";
 import Form from "../../components/Form/Form";
 import Header from "../../components/Header/Header";
-import { title, UserDetails } from "../../utils/constant";
+import { Path, title, UserDetails } from "../../utils/constant";
 import styles from "./Login.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ function Login() {
   const [userID, setUserID] = useState("");
   const navigate = useNavigate();
   const [authenticated, setAuthenticated] = useState(
-    localStorage.getItem(localStorage.getItem("authenticated"))
+    localStorage.getItem("authenticated")
   );
 
   const user = {
@@ -23,7 +23,9 @@ function Login() {
     if (user.userId === userID) {
       setAuthenticated(authenticated);
       localStorage.setItem("authenticated", true);
-      navigate("/todolist");
+      if (localStorage.getItem("authenticated")) {
+        navigate(Path.todoListPath);
+      }
     } else {
       alert("Invalid user");
     }
