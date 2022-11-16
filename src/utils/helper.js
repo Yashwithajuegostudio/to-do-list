@@ -1,6 +1,6 @@
 // get TodoListObject from local storage
 
-export const getToListObjectFromStorage = () => {
+export const getToDoListObjectFromStorage = () => {
   const data = localStorage.getItem("TodoList");
   if (data) {
     return JSON.parse(data);

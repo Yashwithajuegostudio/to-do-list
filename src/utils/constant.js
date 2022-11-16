@@ -39,3 +39,10 @@ export const PATH = {
 };
 
 export const INITIAL_ACTIVE_TAB_INDEX = 0;
+
+// authenticated status
+export const AUTHENTICATION_STATUS = {
+  authenticated: "true",
+  notAuthenticated: "false",
+};
+export const AUTH_LOCAL_STORAGE_KEY = "authenticated";

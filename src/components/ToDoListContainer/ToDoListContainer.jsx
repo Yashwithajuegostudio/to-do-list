@@ -26,17 +26,11 @@ function ToDoListContainer({
   const [toDoObjectID, setToDoObjectID] = useState();
 
   const updateTodoListObject = (todoListObject, activeContent) => {
-    if (activeContent === TAB_NUMBER.Tab_One) {
-      setToDoListState(todoListObject);
-    } else {
-      setToDoListState(
-        todoListObject.filter((item) => {
-          if (item.todoStatus === activeContent) {
-            return item;
-          }
-        })
-      );
-    }
+    activeContent === TAB_NUMBER.Tab_One
+      ? setToDoListState(todoListObject)
+      : setToDoListState(
+          todoListObject.filter((item) => item.todoStatus === activeContent)
+        );
   };
   useEffect(() => {
     updateTodoListObject(todoListObject, activeContent);
@@ -93,9 +87,7 @@ function ToDoListContainer({
         <div className={styles.search}>
           <InputField
             placeholder={PLACEHOLDER_VALUE.searchBtnPlaceholder}
-            handleOnchange={(e) => {
-              handleSearchChange(e.target.value);
-            }}
+            handleOnchange={handleSearchChange}
           />
         </div>
         {toDoListState.map((item, index) => (
@@ -154,9 +146,7 @@ function ToDoListContainer({
                       <>
                         {btnStatus === TITLE.editBtnTitle && (
                           <InputField
-                            handleOnchange={(e) =>
-                              setToDoListValue(e.target.value)
-                            }
+                            handleOnchange={setToDoListValue}
                             value={toDoListValue}
                           />
                         )}

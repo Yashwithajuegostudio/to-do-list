@@ -12,7 +12,7 @@ function InputField({
   return (
     <input
       className={styles.input_box}
-      onChange={handleOnchange}
+      onChange={(e) => handleOnchange(e.target.value)}
       value={value}
       id={id}
       name={name}
