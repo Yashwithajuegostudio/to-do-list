@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { message, placeholderValue, tabId, title } from "../../utils/constant";
+import { message, placeholderValue, title } from "../../utils/constant";
 import Button from "../Button/Button";
 import InputField from "../InputField/InputField";
 
@@ -21,8 +21,18 @@ function ToDoListContainer({
   const [toDoObjectID, setToDoObjectID] = useState();
 
   useEffect(() => {
-    setToDoListState(todoListObject);
-  }, [todoListObject]);
+    if (activeContent === 0) {
+      setToDoListState(todoListObject);
+    } else {
+      setToDoListState(
+        todoListObject.filter((item, index) => {
+          if (item.todoStatus === activeContent) {
+            return item;
+          }
+        })
+      );
+    }
+  }, [todoListObject, activeContent]);
 
   // toggle Popup functionality
   const togglePopup = () => {
@@ -70,191 +80,103 @@ function ToDoListContainer({
   };
 
   return (
-    <div className={styles.todo_list_container}>
-      <div className={styles.search}>
-        <InputField
-          placeholder={placeholderValue.searchBtnPlaceholder}
-          handleOnchange={(e) => {
-            handleSearchChange(e.target.value);
-          }}
-        />
-      </div>
-      {/* Tab1 - All */}
-      <div
-        className={
-          activeContent === tabId.firstTabId ? "" : styles.hide_content
-        }
-      >
-        {toDoListState.map((individualItem, index) => (
+    <>
+      <div className={styles.todo_list_container}>
+        <div className={styles.search}>
+          <InputField
+            placeholder={placeholderValue.searchBtnPlaceholder}
+            handleOnchange={(e) => {
+              handleSearchChange(e.target.value);
+            }}
+          />
+        </div>
+        {toDoListState.map((item, index) => (
           <div key={index} className={styles.item_container}>
             <span>{index + 1}</span>
-            <span>{individualItem.TodoValue}</span>
-            <div className={styles.todo_buttons}>
+            <span>{item.TodoValue}</span>
+            {activeContent === 0 && (
               <Button
                 title={
-                  individualItem.completed
+                  item.todoStatus === 2
                     ? title.completedBtnTitle
                     : title.toDoBtnTitle
                 }
                 clickHandler={() => {
-                  onClickTabStatusHandler(index, title.toDoBtnTitle);
+                  onClickTabStatusHandler(item.ID, title.toDoBtnTitle);
                 }}
-                disabled={individualItem.toDo}
+                disabled={item.todoStatus === 1 || item.todoStatus === 2}
               />
+            )}
+            {activeContent === 1 && (
               <Button
-                title={title.editBtnTitle}
+                title={title.completedBtnTitle}
                 clickHandler={() => {
-                  onClickEditHandler(individualItem.TodoValue, index);
+                  onClickTabStatusHandler(item.ID, title.completedBtnTitle);
                 }}
-                disabled={individualItem.completed}
               />
-              <Button
-                title={title.deleteBtnTitle}
-                clickHandler={() => {
-                  onCliCkDeleteHandler(individualItem.ID);
-                }}
-                disabled={individualItem.completed}
-              />
-
-              {isOpenPopUp && (
-                <PopUP
-                  title={
-                    btnStatus === title.deleteBtnTitle
-                      ? message.deleteMessage
-                      : ""
-                  }
-                  content={
-                    <>
-                      {btnStatus === title.editBtnTitle && (
-                        <InputField
-                          handleOnchange={(e) =>
-                            setToDoListValue(e.target.value)
-                          }
-                          value={toDoListValue}
-                        />
-                      )}
-
-                      <div className={styles.todo_buttons}>
-                        <Button
-                          title={title.cancelBtnTitle}
-                          clickHandler={togglePopup}
-                        />
-                        <Button
-                          title={
-                            btnStatus === title.deleteBtnTitle
-                              ? title.deleteBtnTitle
-                              : title.editBtnTitle
-                          }
-                          clickHandler={() => {
-                            onClickPopUpBtnHandler(btnStatus);
-                          }}
-                        />
-                      </div>
-                    </>
-                  }
-                  handleClose={togglePopup}
+            )}
+            {activeContent !== 2 && (
+              <>
+                <Button
+                  title={title.editBtnTitle}
+                  clickHandler={() => {
+                    onClickEditHandler(item.TodoValue, item.ID);
+                  }}
+                  disabled={item.todoStatus === 2}
                 />
-              )}
-            </div>
+                <Button
+                  title={title.deleteBtnTitle}
+                  clickHandler={() => {
+                    onCliCkDeleteHandler(item.ID);
+                  }}
+                  disabled={item.todoStatus === 2}
+                />
+
+                {isOpenPopUp && (
+                  <PopUP
+                    title={
+                      btnStatus === title.deleteBtnTitle
+                        ? message.deleteMessage
+                        : ""
+                    }
+                    content={
+                      <>
+                        {btnStatus === title.editBtnTitle && (
+                          <InputField
+                            handleOnchange={(e) =>
+                              setToDoListValue(e.target.value)
+                            }
+                            value={toDoListValue}
+                          />
+                        )}
+
+                        <div className={styles.todo_buttons}>
+                          <Button
+                            title={title.cancelBtnTitle}
+                            clickHandler={togglePopup}
+                          />
+                          <Button
+                            title={
+                              btnStatus === title.deleteBtnTitle
+                                ? title.deleteBtnTitle
+                                : title.editBtnTitle
+                            }
+                            clickHandler={() => {
+                              onClickPopUpBtnHandler(btnStatus);
+                            }}
+                          />
+                        </div>
+                      </>
+                    }
+                    handleClose={togglePopup}
+                  />
+                )}
+              </>
+            )}
           </div>
         ))}
       </div>
-
-      {/* Tab2 -todo */}
-      <div
-        className={
-          activeContent === tabId.secondTabId ? "" : styles.hide_content
-        }
-      >
-        {toDoListState.map(
-          (individualItem, index) =>
-            individualItem.toDo &&
-            !individualItem.completed && (
-              <div key={index} className={styles.item_container}>
-                <span>{index + 1}</span>
-                <span>{individualItem.TodoValue}</span>
-                <div className={styles.todo_buttons}>
-                  <Button
-                    title={title.completedBtnTitle}
-                    clickHandler={() => {
-                      onClickTabStatusHandler(index, title.completedBtnTitle);
-                    }}
-                  />
-                  <Button
-                    title={title.editBtnTitle}
-                    clickHandler={() => {
-                      onClickEditHandler(individualItem.TodoValue, index);
-                    }}
-                  />
-                  <Button
-                    title={title.deleteBtnTitle}
-                    clickHandler={() => {
-                      onCliCkDeleteHandler(individualItem.ID);
-                    }}
-                  />
-                  {isOpenPopUp && (
-                    <PopUP
-                      title={
-                        btnStatus === title.deleteBtnTitle
-                          ? message.deleteMessage
-                          : ""
-                      }
-                      content={
-                        <>
-                          {btnStatus === title.editBtnTitle && (
-                            <InputField
-                              handleOnchange={(e) =>
-                                setToDoListValue(e.target.value)
-                              }
-                              value={toDoListValue}
-                            />
-                          )}
-
-                          <div className={styles.todo_buttons}>
-                            <Button
-                              title={title.cancelBtnTitle}
-                              clickHandler={togglePopup}
-                            />
-                            <Button
-                              title={
-                                btnStatus === title.deleteBtnTitle
-                                  ? title.deleteBtnTitle
-                                  : title.editBtnTitle
-                              }
-                              clickHandler={() => {
-                                onClickPopUpBtnHandler(btnStatus);
-                              }}
-                            />
-                          </div>
-                        </>
-                      }
-                      handleClose={togglePopup}
-                    />
-                  )}
-                </div>
-              </div>
-            )
-        )}
-      </div>
-      {/* Tab3 -Complete */}
-      <div
-        className={
-          activeContent === tabId.thirdTabID ? "" : styles.hide_content
-        }
-      >
-        {toDoListState.map(
-          (individualItem, index) =>
-            individualItem.toDo &&
-            individualItem.completed && (
-              <div key={index} className={styles.item_container}>
-                <span>{index + 1}</span>
-                <span>{individualItem.TodoValue}</span>
-                <div className={styles.todo_buttons}></div>
-              </div>
-            )
-        )}
-      </div>
-    </div>
+    </>
   );
 }
 

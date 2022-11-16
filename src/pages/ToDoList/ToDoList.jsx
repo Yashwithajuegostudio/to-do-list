@@ -37,8 +37,9 @@ function ToDoList() {
     let todoObject = {
       ID: time,
       TodoValue: item,
-      completed: false,
-      toDo: false,
+      todoStatus: 0,
+      // completed: false,
+      // toDo: false,
     };
     // updating TodoListObject state
     setTodoListObject([...todoListObject, todoObject]);
@@ -59,13 +60,15 @@ function ToDoList() {
   // update the status of edit,todo,complete buttons
   const updateStatus = (id, btnStatus, itemToBeUpdated) => {
     let items = [...todoListObject];
-    let item = items[id];
-    btnStatus === title.editBtnTitle
-      ? (item.TodoValue = itemToBeUpdated)
-      : btnStatus === title.toDoBtnTitle
-      ? (item.toDo = true)
-      : (item.completed = true);
-    items[id] = item;
+    const filteredId = items.find((item) => item.ID === id);
+    if (filteredId) {
+      btnStatus === title.editBtnTitle
+        ? (filteredId.TodoValue = itemToBeUpdated)
+        : btnStatus === title.toDoBtnTitle
+        ? (filteredId.todoStatus = 1)
+        : (filteredId.todoStatus = 2);
+    }
+
     setTodoListObject(items);
   };
 
