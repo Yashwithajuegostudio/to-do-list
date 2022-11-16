@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import {
   message,
-  placeholderValue,
-  tabNumber,
-  title,
+  PLACEHOLDER_VALUE,
+  TAB_NUMBER,
+  TITLE,
 } from "../../utils/constant";
 import Button from "../Button/Button";
 import InputField from "../InputField/InputField";
@@ -25,8 +25,8 @@ function ToDoListContainer({
   const [toDoListState, setToDoListState] = useState(todoListObject);
   const [toDoObjectID, setToDoObjectID] = useState();
 
-  useEffect(() => {
-    if (activeContent === tabNumber.Tab_One) {
+  const updateTodoListObject = (todoListObject, activeContent) => {
+    if (activeContent === TAB_NUMBER.Tab_One) {
       setToDoListState(todoListObject);
     } else {
       setToDoListState(
@@ -37,6 +37,9 @@ function ToDoListContainer({
         })
       );
     }
+  };
+  useEffect(() => {
+    updateTodoListObject(todoListObject, activeContent);
   }, [todoListObject, activeContent]);
 
   // toggle Popup functionality
@@ -46,14 +49,14 @@ function ToDoListContainer({
 
   // Tab button handler functionality
   const onClickTabStatusHandler = (btnIndex, btnStatus) => {
-    btnStatus === title.toDoBtnTitle
+    btnStatus === TITLE.toDoBtnTitle
       ? updateStatus(btnIndex, btnStatus)
       : updateStatus(btnIndex, btnStatus);
   };
 
   //Edit button handler functionality
   const onClickEditHandler = (toDoItem, index) => {
-    setBtnStatus(title.editBtnTitle);
+    setBtnStatus(TITLE.editBtnTitle);
     setToDoListValue(toDoItem);
     setToDoObjectID(index);
     togglePopup();
@@ -61,14 +64,14 @@ function ToDoListContainer({
 
   // delete button handler functionality
   const onCliCkDeleteHandler = (id) => {
-    setBtnStatus(title.deleteBtnTitle);
+    setBtnStatus(TITLE.deleteBtnTitle);
     setDeleteId(id);
     togglePopup();
   };
 
   // popUp button functionality
-  const onClickPopUpBtnHandler = (btnStatus) => {
-    btnStatus === title.deleteBtnTitle
+  const onClickPopUpBtnHandler = (btnStatus, id) => {
+    btnStatus === TITLE.deleteBtnTitle
       ? removeItem(deleteId)
       : updateStatus(toDoObjectID, btnStatus, toDoListValue);
     togglePopup();
@@ -89,7 +92,7 @@ function ToDoListContainer({
       <div className={styles.todo_list_container}>
         <div className={styles.search}>
           <InputField
-            placeholder={placeholderValue.searchBtnPlaceholder}
+            placeholder={PLACEHOLDER_VALUE.searchBtnPlaceholder}
             handleOnchange={(e) => {
               handleSearchChange(e.target.value);
             }}
@@ -99,57 +102,57 @@ function ToDoListContainer({
           <div key={index} className={styles.item_container}>
             <span>{index + 1}</span>
             <span>{item.TodoValue}</span>
-            {activeContent === tabNumber.Tab_One && (
+            {activeContent === TAB_NUMBER.Tab_One && (
               <Button
                 title={
-                  item.todoStatus === tabNumber.Tab_Three
-                    ? title.completedBtnTitle
-                    : title.toDoBtnTitle
+                  item.todoStatus === TAB_NUMBER.Tab_Three
+                    ? TITLE.completedBtnTitle
+                    : TITLE.toDoBtnTitle
                 }
                 clickHandler={() => {
-                  onClickTabStatusHandler(item.ID, title.toDoBtnTitle);
+                  onClickTabStatusHandler(item.ID, TITLE.toDoBtnTitle);
                 }}
                 disabled={
-                  item.todoStatus === tabNumber.Tab_Two ||
-                  item.todoStatus === tabNumber.Tab_Three
+                  item.todoStatus === TAB_NUMBER.Tab_Two ||
+                  item.todoStatus === TAB_NUMBER.Tab_Three
                 }
               />
             )}
-            {activeContent === tabNumber.Tab_Two && (
+            {activeContent === TAB_NUMBER.Tab_Two && (
               <Button
-                title={title.completedBtnTitle}
+                title={TITLE.completedBtnTitle}
                 clickHandler={() => {
-                  onClickTabStatusHandler(item.ID, title.completedBtnTitle);
+                  onClickTabStatusHandler(item.ID, TITLE.completedBtnTitle);
                 }}
               />
             )}
-            {activeContent !== tabNumber.Tab_Three && (
+            {activeContent !== TAB_NUMBER.Tab_Three && (
               <>
                 <Button
-                  title={title.editBtnTitle}
+                  title={TITLE.editBtnTitle}
                   clickHandler={() => {
                     onClickEditHandler(item.TodoValue, item.ID);
                   }}
-                  disabled={item.todoStatus === tabNumber.Tab_Three}
+                  disabled={item.todoStatus === TAB_NUMBER.Tab_Three}
                 />
                 <Button
-                  title={title.deleteBtnTitle}
+                  title={TITLE.deleteBtnTitle}
                   clickHandler={() => {
                     onCliCkDeleteHandler(item.ID);
                   }}
-                  disabled={item.todoStatus === tabNumber.Tab_Three}
+                  disabled={item.todoStatus === TAB_NUMBER.Tab_Three}
                 />
 
                 {isOpenPopUp && (
                   <PopUP
                     title={
-                      btnStatus === title.deleteBtnTitle
+                      btnStatus === TITLE.deleteBtnTitle
                         ? message.deleteMessage
                         : ""
                     }
                     content={
                       <>
-                        {btnStatus === title.editBtnTitle && (
+                        {btnStatus === TITLE.editBtnTitle && (
                           <InputField
                             handleOnchange={(e) =>
                               setToDoListValue(e.target.value)
@@ -160,17 +163,17 @@ function ToDoListContainer({
 
                         <div className={styles.todo_buttons}>
                           <Button
-                            title={title.cancelBtnTitle}
+                            title={TITLE.cancelBtnTitle}
                             clickHandler={togglePopup}
                           />
                           <Button
                             title={
-                              btnStatus === title.deleteBtnTitle
-                                ? title.deleteBtnTitle
-                                : title.editBtnTitle
+                              btnStatus === TITLE.deleteBtnTitle
+                                ? TITLE.deleteBtnTitle
+                                : TITLE.editBtnTitle
                             }
                             clickHandler={() => {
-                              onClickPopUpBtnHandler(btnStatus);
+                              onClickPopUpBtnHandler(btnStatus, item.ID);
                             }}
                           />
                         </div>

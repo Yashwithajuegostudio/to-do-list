@@ -7,8 +7,8 @@ import ToDoListContainer from "../../components/ToDoListContainer/ToDoListContai
 import ToDOListForm from "../../components/ToDoListForm/ToDOListForm";
 import {
   INITIAL_ACTIVE_TAB_INDEX,
-  tabNumber,
-  title,
+  TAB_NUMBER,
+  TITLE,
 } from "../../utils/constant";
 import { getToListObjectFromStorage } from "../../utils/helper";
 import styles from "./ToDoList.module.css";
@@ -20,7 +20,7 @@ function ToDoList() {
   const [authenticated, setAuthenticated] = useState(
     localStorage.getItem("authenticated")
   );
-  console.log(authenticated);
+
   let navigate = useNavigate();
   // TodoListObject array of objects
   const [todoListObject, setTodoListObject] = useState(
@@ -59,11 +59,11 @@ function ToDoList() {
     let items = [...todoListObject];
     const filteredId = items.find((item) => item.ID === id);
     if (filteredId) {
-      btnStatus === title.editBtnTitle
+      btnStatus === TITLE.editBtnTitle
         ? (filteredId.TodoValue = itemToBeUpdated)
-        : btnStatus === title.toDoBtnTitle
-        ? (filteredId.todoStatus = tabNumber.Tab_Two)
-        : (filteredId.todoStatus = tabNumber.Tab_Three);
+        : btnStatus === TITLE.toDoBtnTitle
+        ? (filteredId.todoStatus = TAB_NUMBER.Tab_Two)
+        : (filteredId.todoStatus = TAB_NUMBER.Tab_Three);
     }
     setTodoListObject(items);
   };
@@ -85,51 +85,47 @@ function ToDoList() {
       setAuthenticated(loggedOutUser);
       navigate("/");
     }
-    console.log(authenticated);
   };
-  if (localStorage.getItem("authenticated")) {
-    return (
-      <>
-        <Button
-          title={title.logoutBtnTitle}
-          clickHandler={() => {
-            onClickLogoutHandler();
-          }}
-        />
-        <Header />
-        <ToDOListForm addItem={addItem} />
-        <div className={styles.tabs}>
-          <Tab
-            onClick={handleTabClick}
-            tabTitle={title.allTab}
-            active={active === tabNumber.Tab_One}
-            tabID={tabNumber.Tab_One}
-          />
-          <Tab
-            onClick={handleTabClick}
-            tabTitle={title.toDoTab}
-            active={active === tabNumber.Tab_Two}
-            tabID={tabNumber.Tab_Two}
-          />
-          <Tab
-            onClick={handleTabClick}
-            tabTitle={title.completedTab}
-            active={active === tabNumber.Tab_Three}
-            tabID={tabNumber.Tab_Three}
-          />
-        </div>
 
-        <ToDoListContainer
-          todoListObject={todoListObject}
-          activeContent={active}
-          removeItem={removeItem}
-          updateStatus={updateStatus}
+  return (
+    <>
+      <Button
+        title={TITLE.logoutBtnTitle}
+        clickHandler={() => {
+          onClickLogoutHandler();
+        }}
+      />
+      <Header />
+      <ToDOListForm addItem={addItem} />
+      <div className={styles.tabs}>
+        <Tab
+          onClick={handleTabClick}
+          tabTitle={TITLE.allTab}
+          active={active === TAB_NUMBER.Tab_One}
+          tabID={TAB_NUMBER.Tab_One}
         />
-      </>
-    );
-  } else {
-    navigate("/");
-  }
+        <Tab
+          onClick={handleTabClick}
+          tabTitle={TITLE.toDoTab}
+          active={active === TAB_NUMBER.Tab_Two}
+          tabID={TAB_NUMBER.Tab_Two}
+        />
+        <Tab
+          onClick={handleTabClick}
+          tabTitle={TITLE.completedTab}
+          active={active === TAB_NUMBER.Tab_Three}
+          tabID={TAB_NUMBER.Tab_Three}
+        />
+      </div>
+
+      <ToDoListContainer
+        todoListObject={todoListObject}
+        activeContent={active}
+        removeItem={removeItem}
+        updateStatus={updateStatus}
+      />
+    </>
+  );
 }
 
 export default ToDoList;

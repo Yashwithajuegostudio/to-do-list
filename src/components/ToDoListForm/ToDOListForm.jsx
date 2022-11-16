@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { title } from "../../utils/constant";
+import { TITLE } from "../../utils/constant";
 
 import Form from "../Form/Form";
 
@@ -14,7 +14,7 @@ function ToDOListForm({ addItem }) {
   };
   return (
     <Form
-      btnTitle={title.addBtnTitle}
+      btnTitle={TITLE.addBtnTitle}
       handleSubmit={handleSubmit}
       userInput={userInput}
       setUserInput={setUserInput}
