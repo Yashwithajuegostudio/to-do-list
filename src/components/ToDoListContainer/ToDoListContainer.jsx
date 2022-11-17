@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  message,
-  PLACEHOLDER_VALUE,
-  TAB_NUMBER,
-  TITLE,
-} from "../../utils/constant";
+import { PLACEHOLDER_VALUE, TAB_NUMBER, TITLE } from "../../utils/constant";
 import Button from "../Button/Button";
 import InputField from "../InputField/InputField";
 
@@ -139,7 +134,7 @@ function ToDoListContainer({
                   <PopUP
                     title={
                       btnStatus === TITLE.deleteBtnTitle
-                        ? message.deleteMessage
+                        ? TITLE.deleteAlertTitle
                         : ""
                     }
                     content={

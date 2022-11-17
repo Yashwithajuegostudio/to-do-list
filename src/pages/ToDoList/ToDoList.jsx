@@ -9,6 +9,8 @@ import ToDoListContainer from "../../components/ToDoListContainer/ToDoListContai
 import {
   AUTHENTICATION_STATUS,
   INITIAL_ACTIVE_TAB_INDEX,
+  LOCAL_STORAGE_KEY,
+  MESSAGE,
   TAB_CONTENT,
   TAB_NUMBER,
   TITLE,
@@ -25,6 +27,10 @@ function ToDoList() {
   );
   const [userInput, setUserInput] = useState("");
   let navigate = useNavigate();
+  const authenticatedStatus = localStorage.getItem(
+    LOCAL_STORAGE_KEY.authenticated
+  );
+
   // add the input field item to object todoObject
   const addItem = (item) => {
     // creating a ID for every todo
@@ -39,9 +45,13 @@ function ToDoList() {
     // updating TodoListObject state
     setTodoListObject([...todoListObject, todoObject]);
   };
+
   // saving data to local storage
   useEffect(() => {
-    localStorage.setItem("TodoList", JSON.stringify(todoListObject));
+    localStorage.setItem(
+      LOCAL_STORAGE_KEY.todoList,
+      JSON.stringify(todoListObject)
+    );
   }, [todoListObject]);
 
   // remove data from local storage
@@ -73,16 +83,16 @@ function ToDoList() {
       setActive(index);
     }
   };
-  const authenticatedStatus = localStorage.getItem("authenticated");
+
   // Logout Click handler functionality
   const onClickLogoutHandler = () => {
     if (authenticatedStatus === AUTHENTICATION_STATUS.authenticated) {
-      localStorage.setItem("authenticated", false);
+      localStorage.setItem(LOCAL_STORAGE_KEY.authenticated, false);
       if (
-        localStorage.getItem("authenticated") ===
+        localStorage.getItem(LOCAL_STORAGE_KEY.authenticated) ===
         AUTHENTICATION_STATUS.notAuthenticated
       ) {
-        alert("Do you want to logout");
+        alert(MESSAGE.logoutAlertMessage);
         navigate("/");
       }
     }
@@ -118,13 +128,13 @@ function ToDoList() {
           setUserInput={setUserInput}
         />
         <div className={styles.tabs}>
-          {TAB_CONTENT.map((item, index) => (
+          {TAB_CONTENT.map((tabItem, index) => (
             <Tab
               key={index}
               onClick={handleTabClick}
-              tabTitle={item.title}
-              active={active === item.id}
-              tabID={item.id}
+              tabTitle={tabItem.title}
+              active={active === tabItem.id}
+              tabID={tabItem.id}
             />
           ))}
         </div>

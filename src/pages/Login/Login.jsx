@@ -3,6 +3,8 @@ import Form from "../../components/Form/Form";
 import Header from "../../components/Header/Header";
 import {
   AUTHENTICATION_STATUS,
+  LOCAL_STORAGE_KEY,
+  MESSAGE,
   PATH,
   TITLE,
   USER_ID,
@@ -13,8 +15,10 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [userID, setUserID] = useState("");
-  localStorage.setItem("authenticated", false);
-  const authenticatedStatus = localStorage.getItem("authenticated");
+  localStorage.setItem(LOCAL_STORAGE_KEY.authenticated, false);
+  const authenticatedStatus = localStorage.getItem(
+    LOCAL_STORAGE_KEY.authenticated
+  );
   const navigate = useNavigate();
 
   // add button functionality
@@ -25,15 +29,15 @@ function Login() {
       USER_ID === userID &&
       authenticatedStatus === AUTHENTICATION_STATUS.notAuthenticated
     ) {
-      localStorage.setItem("authenticated", true);
+      localStorage.setItem(LOCAL_STORAGE_KEY.authenticated, true);
       if (
-        localStorage.getItem("authenticated") ===
+        localStorage.getItem(LOCAL_STORAGE_KEY.authenticated) ===
         AUTHENTICATION_STATUS.authenticated
       ) {
         navigate(PATH.todoListPath);
       }
     } else {
-      alert("Invalid user");
+      alert(MESSAGE.invalidUserAlertMessage);
     }
     setUserID("");
   };

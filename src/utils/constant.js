@@ -13,9 +13,11 @@ export const TITLE = {
   toDoTab: "ToDo",
   completedTab: "Completed",
   logoutBtnTitle: "Logout",
+  deleteAlertTitle: "Are you sure want to delete?",
 };
-export const message = {
-  deleteMessage: "Are you sure want to delete?",
+export const MESSAGE = {
+  invalidUserAlertMessage: "Invalid user",
+  logoutAlertMessage: "Do you want to logout",
 };
 
 // user
@@ -62,3 +64,9 @@ export const TAB_CONTENT = [
     title: TITLE.completedTab,
   },
 ];
+
+// Local storage key
+export const LOCAL_STORAGE_KEY = {
+  authenticated: "authenticated",
+  todoList: "TodoList",
+};
