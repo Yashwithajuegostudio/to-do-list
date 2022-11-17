@@ -1,10 +1,10 @@
-import React from "react";
 import Form from "../../components/Form/Form";
 import Header from "../../components/Header/Header";
 import {
   AUTHENTICATION_STATUS,
   LOCAL_STORAGE_KEY,
   MESSAGE,
+  METHOD,
   PATH,
   TITLE,
   USER_ID,
@@ -12,11 +12,19 @@ import {
 import styles from "./Login.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocalStorageData } from "../../utils/storageLib";
 
 function Login() {
   const [userID, setUserID] = useState("");
-  localStorage.setItem(LOCAL_STORAGE_KEY.authenticated, false);
-  const authenticatedStatus = localStorage.getItem(
+  const [setAuthStatus] = useLocalStorageData();
+  setAuthStatus(
+    METHOD.SET,
+    LOCAL_STORAGE_KEY.authenticated,
+    AUTHENTICATION_STATUS.notAuthenticated
+  );
+
+  const authenticatedStatus = setAuthStatus(
+    METHOD.GET,
     LOCAL_STORAGE_KEY.authenticated
   );
   const navigate = useNavigate();

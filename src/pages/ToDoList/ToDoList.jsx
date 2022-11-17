@@ -27,9 +27,12 @@ function ToDoList() {
   const toDoListData = setToDoList(METHOD.GET, LOCAL_STORAGE_KEY.todoList);
   const [todoListObject, setTodoListObject] = useState(toDoListData);
   const [userInput, setUserInput] = useState("");
-  const authenticatedStatus = localStorage.getItem(
+  const [setAuthStatus] = useLocalStorageData();
+  const authenticatedStatus = setAuthStatus(
+    METHOD.GET,
     LOCAL_STORAGE_KEY.authenticated
   );
+  console.log(authenticatedStatus);
   let navigate = useNavigate();
 
   // add the input field item to object todoObject
@@ -93,7 +96,10 @@ function ToDoList() {
   // Logout Click handler functionality
   const onClickLogoutHandler = () => {
     if (authenticatedStatus === AUTHENTICATION_STATUS.authenticated) {
-      localStorage.setItem(LOCAL_STORAGE_KEY.authenticated, false);
+      localStorage.setItem(
+        LOCAL_STORAGE_KEY.authenticated,
+        AUTHENTICATION_STATUS.notAuthenticated
+      );
       if (
         localStorage.getItem(LOCAL_STORAGE_KEY.authenticated) ===
         AUTHENTICATION_STATUS.notAuthenticated
