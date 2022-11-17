@@ -53,9 +53,12 @@ function ToDoList() {
 
   // saving data to local storage
   useEffect(() => {
+    if (authenticatedStatus === AUTHENTICATION_STATUS.notAuthenticated) {
+      navigate("/");
+    }
     setToDoList(METHOD.GET, LOCAL_STORAGE_KEY.todoList);
     setToDoList(METHOD.SET, LOCAL_STORAGE_KEY.todoList, todoListObject);
-  }, [todoListObject, setToDoList]);
+  }, [todoListObject, setToDoList, authenticatedStatus, navigate]);
 
   // remove data from local storage
   const removeItem = (id) => {
@@ -106,11 +109,6 @@ function ToDoList() {
     addItem(userInput);
     setUserInput("");
   };
-  useEffect(() => {
-    if (authenticatedStatus === AUTHENTICATION_STATUS.notAuthenticated) {
-      navigate("/");
-    }
-  }, [authenticatedStatus, navigate]);
 
   if (authenticatedStatus === AUTHENTICATION_STATUS.notAuthenticated) {
     navigate("/");
