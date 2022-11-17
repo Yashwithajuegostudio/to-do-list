@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
+import Form from "../../components/Form/Form";
 import Header from "../../components/Header/Header";
 import Tab from "../../components/Tab/Tab";
 import ToDoListContainer from "../../components/ToDoListContainer/ToDoListContainer";
-import ToDOListForm from "../../components/ToDoListForm/ToDOListForm";
+
 import {
   AUTHENTICATION_STATUS,
   INITIAL_ACTIVE_TAB_INDEX,
+  TAB_CONTENT,
   TAB_NUMBER,
   TITLE,
 } from "../../utils/constant";
@@ -21,6 +23,7 @@ function ToDoList() {
   const [todoListObject, setTodoListObject] = useState(
     getToDoListObjectFromStorage()
   );
+  const [userInput, setUserInput] = useState("");
   let navigate = useNavigate();
   // add the input field item to object todoObject
   const addItem = (item) => {
@@ -84,6 +87,12 @@ function ToDoList() {
       }
     }
   };
+  // add button functionality
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addItem(userInput);
+    setUserInput("");
+  };
   useEffect(() => {
     if (authenticatedStatus === AUTHENTICATION_STATUS.notAuthenticated) {
       navigate("/");
@@ -102,26 +111,22 @@ function ToDoList() {
           }}
         />
         <Header />
-        <ToDOListForm addItem={addItem} />
+        <Form
+          btnTitle={TITLE.addBtnTitle}
+          handleSubmit={handleSubmit}
+          userInput={userInput}
+          setUserInput={setUserInput}
+        />
         <div className={styles.tabs}>
-          <Tab
-            onClick={handleTabClick}
-            tabTitle={TITLE.allTab}
-            active={active === TAB_NUMBER.Tab_One}
-            tabID={TAB_NUMBER.Tab_One}
-          />
-          <Tab
-            onClick={handleTabClick}
-            tabTitle={TITLE.toDoTab}
-            active={active === TAB_NUMBER.Tab_Two}
-            tabID={TAB_NUMBER.Tab_Two}
-          />
-          <Tab
-            onClick={handleTabClick}
-            tabTitle={TITLE.completedTab}
-            active={active === TAB_NUMBER.Tab_Three}
-            tabID={TAB_NUMBER.Tab_Three}
-          />
+          {TAB_CONTENT.map((item, index) => (
+            <Tab
+              key={index}
+              onClick={handleTabClick}
+              tabTitle={item.title}
+              active={active === item.id}
+              tabID={item.id}
+            />
+          ))}
         </div>
 
         <ToDoListContainer

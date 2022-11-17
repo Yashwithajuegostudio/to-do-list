@@ -46,3 +46,19 @@ export const AUTHENTICATION_STATUS = {
   notAuthenticated: "false",
 };
 export const AUTH_LOCAL_STORAGE_KEY = "authenticated";
+
+// Tab content
+export const TAB_CONTENT = [
+  {
+    id: 0,
+    title: TITLE.allTab,
+  },
+  {
+    id: 1,
+    title: TITLE.toDoTab,
+  },
+  {
+    id: 2,
+    title: TITLE.completedTab,
+  },
+];
