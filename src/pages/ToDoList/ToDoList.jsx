@@ -11,25 +11,26 @@ import {
   INITIAL_ACTIVE_TAB_INDEX,
   LOCAL_STORAGE_KEY,
   MESSAGE,
+  METHOD,
   TAB_CONTENT,
   TAB_NUMBER,
   TITLE,
 } from "../../utils/constant";
-import { getToDoListObjectFromStorage } from "../../utils/helper";
+import { useLocalStorageData } from "../../utils/storageLib";
 import styles from "./ToDoList.module.css";
 
 function ToDoList() {
   // active tab state
   const [active, setActive] = useState(INITIAL_ACTIVE_TAB_INDEX);
   // TodoListObject array of objects
-  const [todoListObject, setTodoListObject] = useState(
-    getToDoListObjectFromStorage()
-  );
+  const [setToDoList] = useLocalStorageData();
+  const toDoListData = setToDoList(METHOD.GET, LOCAL_STORAGE_KEY.todoList);
+  const [todoListObject, setTodoListObject] = useState(toDoListData);
   const [userInput, setUserInput] = useState("");
-  let navigate = useNavigate();
   const authenticatedStatus = localStorage.getItem(
     LOCAL_STORAGE_KEY.authenticated
   );
+  let navigate = useNavigate();
 
   // add the input field item to object todoObject
   const addItem = (item) => {
@@ -44,15 +45,17 @@ function ToDoList() {
     };
     // updating TodoListObject state
     setTodoListObject([...todoListObject, todoObject]);
+    setToDoList(METHOD.SET, LOCAL_STORAGE_KEY.todoList, [
+      ...todoListObject,
+      todoObject,
+    ]);
   };
 
   // saving data to local storage
   useEffect(() => {
-    localStorage.setItem(
-      LOCAL_STORAGE_KEY.todoList,
-      JSON.stringify(todoListObject)
-    );
-  }, [todoListObject]);
+    setToDoList(METHOD.GET, LOCAL_STORAGE_KEY.todoList);
+    setToDoList(METHOD.SET, LOCAL_STORAGE_KEY.todoList, todoListObject);
+  }, [todoListObject, setToDoList]);
 
   // remove data from local storage
   const removeItem = (id) => {

@@ -70,3 +70,9 @@ export const LOCAL_STORAGE_KEY = {
   authenticated: "authenticated",
   todoList: "TodoList",
 };
+
+// methods
+export const METHOD = {
+  GET: "GET",
+  SET: "SET",
+};
