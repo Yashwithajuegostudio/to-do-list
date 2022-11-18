@@ -10,7 +10,7 @@ import {
   USER_ID,
 } from "../../utils/constant";
 import styles from "./Login.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorageData } from "../../utils/storageLib";
 
@@ -28,7 +28,9 @@ function Login() {
     LOCAL_STORAGE_KEY.authenticated
   );
   const navigate = useNavigate();
-
+  useEffect(() => {
+    setAuthStatus(METHOD.GET, LOCAL_STORAGE_KEY.authenticated);
+  }, [setAuthStatus]);
   // add button functionality
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -37,14 +39,13 @@ function Login() {
       USER_ID === userID &&
       authenticatedStatus === AUTHENTICATION_STATUS.notAuthenticated
     ) {
-      localStorage.setItem(
+      setAuthStatus(
+        METHOD.SET,
         LOCAL_STORAGE_KEY.authenticated,
         AUTHENTICATION_STATUS.authenticated
       );
-      if (
-        localStorage.getItem(LOCAL_STORAGE_KEY.authenticated) ===
-        AUTHENTICATION_STATUS.authenticated
-      ) {
+
+      if (setAuthStatus(METHOD.GET, LOCAL_STORAGE_KEY.authenticated)) {
         navigate(PATH.todoListPath);
       }
     } else {

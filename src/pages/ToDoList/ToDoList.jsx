@@ -94,9 +94,13 @@ function ToDoList() {
 
   // Logout Click handler functionality
   const onClickLogoutHandler = () => {
-    if (authenticatedStatus === true) {
-      localStorage.setItem(LOCAL_STORAGE_KEY.authenticated, false);
-      if (localStorage.getItem(LOCAL_STORAGE_KEY.authenticated)) {
+    if (authenticatedStatus) {
+      setAuthStatus(
+        METHOD.SET,
+        LOCAL_STORAGE_KEY.authenticated,
+        AUTHENTICATION_STATUS.notAuthenticated
+      );
+      if (setAuthStatus(METHOD.GET, LOCAL_STORAGE_KEY.authenticated)) {
         alert(MESSAGE.logoutAlertMessage);
         navigate("/");
       }
@@ -108,7 +112,7 @@ function ToDoList() {
     addItem(userInput);
     setUserInput("");
   };
-  if (authenticatedStatus === false) {
+  if (!authenticatedStatus) {
     navigate("/");
   } else {
     return (
