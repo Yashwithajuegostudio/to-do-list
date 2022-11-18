@@ -96,7 +96,8 @@ function ToDoList() {
   const onClickLogoutHandler = () => {
     if (authenticatedStatus === true) {
       localStorage.setItem(LOCAL_STORAGE_KEY.authenticated, false);
-      if (localStorage.getItem(LOCAL_STORAGE_KEY.authenticated) === true) {
+      console.log(localStorage.getItem(LOCAL_STORAGE_KEY.authenticated));
+      if (localStorage.getItem(LOCAL_STORAGE_KEY.authenticated)) {
         alert(MESSAGE.logoutAlertMessage);
         navigate("/");
       }
