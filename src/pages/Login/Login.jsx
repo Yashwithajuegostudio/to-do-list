@@ -37,7 +37,10 @@ function Login() {
       USER_ID === userID &&
       authenticatedStatus === AUTHENTICATION_STATUS.notAuthenticated
     ) {
-      localStorage.setItem(LOCAL_STORAGE_KEY.authenticated, true);
+      localStorage.setItem(
+        LOCAL_STORAGE_KEY.authenticated,
+        AUTHENTICATION_STATUS.authenticated
+      );
       if (
         localStorage.getItem(LOCAL_STORAGE_KEY.authenticated) ===
         AUTHENTICATION_STATUS.authenticated

@@ -68,11 +68,11 @@ function ToDoListContainer({
 
   // search button functionality
   const handleSearchChange = (value) => {
-    const filtered = !value
-      ? todoListObject
-      : todoListObject.filter((item) =>
-          item.TodoValue.toLowerCase().includes(value.toLowerCase())
-        );
+    const filtered = todoListObject.filter(
+      (item) =>
+        item.TodoValue.toLowerCase().includes(value.toLowerCase()) &&
+        item.todoStatus === activeContent
+    );
     setToDoListState(filtered);
   };
 
